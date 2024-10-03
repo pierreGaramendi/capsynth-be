@@ -6,15 +6,17 @@ import (
 	"net/http"
 )
 
+// Message represents a standard response message structure in JSON format.
 type Message struct {
 	Message string `json:"message"`
 }
 
-// Error structure for error messages in JSON
+// Error represents an error message structure in JSON format.
 type Error struct {
 	Error string `json:"error"`
 }
 
+// SubtitleController handles HTTP requests for fetching subtitles from YouTube.
 func SubtitleController(w http.ResponseWriter, r *http.Request) {
 	videoID := r.URL.Query().Get("videoID")
 	lang := r.URL.Query().Get("lang")
