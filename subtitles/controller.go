@@ -10,7 +10,13 @@ type Message struct {
 }
 
 func WelcomeController(w http.ResponseWriter, r *http.Request) {
-	response := Message{Message: "Hello, Cruel World!"}
-	getSubtitles("https://www.youtube.com/watch?v=jaiMvRLyGRM", "es")
+	videoID := r.URL.Query().Get("videoID")
+	lang := r.URL.Query().Get("lang")
+	if videoID == "" || lang == "" {
+		http.Error(w, `{"error": "Missing required parameters: videoID and lang"}`, http.StatusBadRequest)
+		return
+	}
+	getSubtitles("https://www.youtube.com/watch?v="+videoID, lang)
+	response := Message{Message: "Subtitles fetched successfully!"}
 	json.NewEncoder(w).Encode(response)
 }
