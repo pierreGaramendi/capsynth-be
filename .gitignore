@@ -26,3 +26,7 @@ go.work.sum
 
 # env file
 .env
+
+
+# Other files resulting from subtitle processing
+*.ttml
