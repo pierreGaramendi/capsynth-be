@@ -1,17 +1,15 @@
-// constants/constants.go
 package constants
 
-// Definición de constantes globales
 const (
-	// URL base de la API de YouTube
+	// API YouTube URL base
 	BaseYouTubeURL = "https://www.youtube.com/watch?v="
 
-	// Mensajes de error
+	// Erro message
 	MissingParametersError = "Missing required parameters: videoID and lang"
 
-	// Mensajes de éxito
+	// Successful message
 	SubtitlesFetchedSuccessfully = "Subtitles fetched successfully!"
 
-	// Otras constantes que necesites
+	// Default subtitle language
 	DefaultLanguage = "en"
 )
