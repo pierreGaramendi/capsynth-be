@@ -15,7 +15,7 @@ type Error struct {
 	Error string `json:"error"`
 }
 
-func WelcomeController(w http.ResponseWriter, r *http.Request) {
+func SubtitleController(w http.ResponseWriter, r *http.Request) {
 	videoID := r.URL.Query().Get("videoID")
 	lang := r.URL.Query().Get("lang")
 	if videoID == "" || lang == "" {
@@ -24,7 +24,7 @@ func WelcomeController(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	url := constants.BaseYouTubeURL + videoID
-	getSubtitles(url, lang)
+	getSubtitlesYtdlp(url, lang)
 	response := Message{Message: constants.SubtitlesFetchedSuccessfully}
 	json.NewEncoder(w).Encode(response)
 }

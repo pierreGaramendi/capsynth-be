@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func getSubtitles(videoUrl string, lang string) {
+func getSubtitlesYtdlp(videoUrl string, lang string) {
 	start := time.Now() // Capturar el tiempo de inicio
 	//cmd := exec.Command("yt-dlp", "--list-subs", "https://www.youtube.com/watch?v=jaiMvRLyGRM")
 	cmd := exec.Command("yt-dlp", "--write-auto-subs", "--sub-lang", lang,
