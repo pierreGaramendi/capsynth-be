@@ -1,6 +1,7 @@
 package subtitles
 
 import (
+	"capsynth/constants"
 	"encoding/json"
 	"net/http"
 )
@@ -9,7 +10,7 @@ type Message struct {
 	Message string `json:"message"`
 }
 
-// Error estructura para los mensajes de error en JSON
+// Error structure for error messages in JSON
 type Error struct {
 	Error string `json:"error"`
 }
@@ -19,10 +20,11 @@ func WelcomeController(w http.ResponseWriter, r *http.Request) {
 	lang := r.URL.Query().Get("lang")
 	if videoID == "" || lang == "" {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(Error{Error: "Missing required parameters: videoID and lang"})
+		json.NewEncoder(w).Encode(Error{Error: constants.MissingParametersError})
 		return
 	}
-	getSubtitles("https://www.youtube.com/watch?v="+videoID, lang)
-	response := Message{Message: "Subtitles fetched successfully!"}
+	url := constants.BaseYouTubeURL + videoID
+	getSubtitles(url, lang)
+	response := Message{Message: constants.SubtitlesFetchedSuccessfully}
 	json.NewEncoder(w).Encode(response)
 }
