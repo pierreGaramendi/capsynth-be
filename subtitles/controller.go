@@ -19,6 +19,7 @@ type Error struct {
 
 // SubtitleController handles HTTP requests for fetching subtitles from YouTube.
 func SubtitleController(w http.ResponseWriter, r *http.Request) {
+
 	videoID := r.URL.Query().Get("videoID")
 	lang := r.URL.Query().Get("lang")
 	if videoID == "" || lang == "" {
@@ -36,6 +37,7 @@ func SubtitleController(w http.ResponseWriter, r *http.Request) {
 		helpers.ErrorResponse(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	response := Message{Message: subtitles}
+	synthesis := AskCohereWithOwnPackage(subtitles, lang)
+	response := Message{Message: synthesis}
 	json.NewEncoder(w).Encode(response)
 }
