@@ -2,6 +2,7 @@ package subtitles
 
 import (
 	"capsynth/constants"
+	"capsynth/helpers"
 	"encoding/json"
 	"net/http"
 )
@@ -25,8 +26,16 @@ func SubtitleController(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(Error{Error: constants.MissingParametersError})
 		return
 	}
-	url := constants.BaseYouTubeURL + videoID
-	getSubtitlesYtdlp(url, lang)
-	response := Message{Message: constants.SubtitlesFetchedSuccessfully}
+	subtitleURL, err := getSubtitleUrlByLang(videoID, lang)
+	if err != nil {
+		helpers.ErrorResponse(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	subtitles, err := downloadAndParseSubtitles(subtitleURL)
+	if err != nil {
+		helpers.ErrorResponse(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	response := Message{Message: subtitles}
 	json.NewEncoder(w).Encode(response)
 }
